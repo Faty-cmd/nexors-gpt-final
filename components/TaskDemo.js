@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { speakWithVoice } from "../lib/voice";
 
 export default function TaskDemo() {
   const [antwort, setAntwort] = useState("");
@@ -10,7 +11,9 @@ export default function TaskDemo() {
       body: JSON.stringify({ prompt }),
     });
     const data = await res.json();
-    setAntwort(data.result || data.error || "Keine Antwort.");
+    const result = data.result || data.error || "Keine Antwort.";
+    setAntwort(result);
+    speakWithVoice(result);
   };
 
   return (
