@@ -1,1 +1,0 @@
-// Adminansicht für Events + Nutzer
