@@ -1,0 +1,1 @@
+// Coach-Modul mit GPT-Hilfe für Schüler & Azubis
