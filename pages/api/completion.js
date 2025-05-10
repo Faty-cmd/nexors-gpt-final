@@ -5,8 +5,8 @@ export default async function handler(req, res) {
   let apiUrl = "https://api.openai.com/v1/chat/completions";
   let apiKey = process.env.OPENAI_API_KEY;
 
-  if (source === "claude") {
-    model = "claude-3-haiku-20240307";
+  if (source === "llama") {
+    model = "meta-llama-3-8b-instruct";
     apiUrl = "https://api.together.xyz/v1/chat/completions";
     apiKey = process.env.TOGETHER_API_KEY;
   } else if (source === "mixtral") {
