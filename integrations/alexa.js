@@ -1,1 +1,0 @@
-// Alexa Skill via Lambda aufrufbar

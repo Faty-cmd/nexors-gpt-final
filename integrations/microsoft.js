@@ -1,1 +1,0 @@
-// Microsoft: Teams, Outlook, Azure GPT Endpoint

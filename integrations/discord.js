@@ -1,1 +1,0 @@
-// Discord Bot + GPT Reaktion
