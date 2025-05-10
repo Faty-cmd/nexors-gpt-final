@@ -1,60 +1,37 @@
-import { useState } from "react";
+export default async function handler(req, res) {
+  const { prompt, source } = req.body;
 
-export default function Home() {
-  const [antwort, setAntwort] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [auswahl, setAuswahl] = useState("");
+  let model = "gpt-4";
+  let apiUrl = "https://api.openai.com/v1/chat/completions";
+  let apiKey = process.env.OPENAI_API_KEY;
 
-  const handleRequest = async (model) => {
-    setAntwort("");
-    setAuswahl(model);
-    setLoading(true);
-    const res = await fetch("/api/completion", {
+  if (source === "llama") {
+    model = "meta-llama-3-8b-instruct";
+    apiUrl = "https://api.together.xyz/v1/chat/completions";
+    apiKey = process.env.TOGETHER_API_KEY;
+  } else if (source === "mixtral") {
+    model = "mixtral-8x7b-32768";
+    apiUrl = "https://api.groq.com/openai/v1/chat/completions";
+    apiKey = process.env.GROQ_API_KEY;
+  }
+
+  try {
+    const response = await fetch(apiUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt: "Was ist künstliche Intelligenz?", source: model }),
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model,
+        messages: [{ role: "user", content: prompt }]
+      })
     });
-    const data = await res.json();
-    setAntwort(data.result || data.error || "Keine Antwort.");
-    setLoading(false);
-  };
 
-  return (
-    <div style={{
-      fontFamily: "Arial",
-      padding: "2rem",
-      maxWidth: "720px",
-      margin: "auto",
-      textAlign: "center"
-    }}>
-      <h1 style={{ fontSize: "2.4rem", color: "#2A4D9B" }}>
-        Willkommen bei <span style={{ color: "#E63946" }}>NEXORS</span>
-      </h1>
-
-      <p style={{ margin: "1rem 0" }}>
-        Wähle dein Modell und teste die Power deiner KI:
-      </p>
-
-      <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginBottom: "1rem", flexWrap: "wrap" }}>
-        <button onClick={() => handleRequest("gpt")} style={{ padding: "0.5rem 1rem" }}>
-          GPT-4
-        </button>
-        <button onClick={() => handleRequest("claude")} style={{ padding: "0.5rem 1rem" }}>
-          Claude 3
-        </button>
-        <button onClick={() => handleRequest("mixtral")} style={{ padding: "0.5rem 1rem" }}>
-          Mixtral
-        </button>
-      </div>
-
-      {loading && <p>⏳ Lade Antwort...</p>}
-
-      {antwort && (
-        <div style={{ marginTop: "1rem", background: "#f9f9f9", padding: "1rem", borderRadius: "8px", textAlign: "left" }}>
-          <strong>Antwort:</strong>
-          <pre style={{ whiteSpace: "pre-wrap" }}>{antwort}</pre>
-        </div>
-      )}
-    </div>
-  );
+    const data = await response.json();
+    const result = data?.choices?.[0]?.message?.content || "Keine Antwort.";
+    res.status(200).json({ result });
+  } catch (error) {
+    res.status(500).json({ error: "API Fehler bei " + model });
+  }
 }
