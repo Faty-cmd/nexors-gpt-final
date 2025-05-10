@@ -1,0 +1,1 @@
+// Apple Shortcuts, Siri, App Clips Struktur

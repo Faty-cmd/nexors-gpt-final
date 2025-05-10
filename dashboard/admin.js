@@ -1,0 +1,1 @@
+// Admin-Ansicht für Upgrades, Events, Demo-Klicks

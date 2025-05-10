@@ -1,0 +1,1 @@
+// GPT-Coach für Schüler, Azubi, Coding erklärt mit Beispielen
