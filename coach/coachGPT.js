@@ -1,0 +1,1 @@
+export default function CoachGPT() { return <div>Coach GPT</div>; }

@@ -1,0 +1,1 @@
+export default function UpgradeBox() { return <div>UpgradeBox</div>; }
