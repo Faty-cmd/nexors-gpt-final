@@ -1,1 +1,0 @@
-// Kopfzeile mit Branding
