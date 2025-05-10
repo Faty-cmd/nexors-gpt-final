@@ -13,7 +13,7 @@ export default function TaskDemo() {
     const data = await res.json();
     const result = data.result || data.error || "Keine Antwort.";
     setAntwort(result);
-    speakWithVoice(result);
+    speakWithVoice(result); // ✅ Hier wird vorgelesen
   };
 
   return (
